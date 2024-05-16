@@ -6,7 +6,7 @@ interface ISearchAction {
 
 interface ISearchUsersSuccessAction {
   type: ActionType.SEARCH_USERS_SUCCESS;
-  payload: string[];
+  payload: object[];
 }
 
 interface ISearchUsersErrorAction {

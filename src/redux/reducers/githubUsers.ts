@@ -3,7 +3,7 @@ import { Action } from 'redux/actions';
 interface IGithubUsersState {
   loading: boolean;
   error: string | null;
-  data: string[];
+  data: object[];
 }
 
 const reducer = (state: IGithubUsersState, action: Action): IGithubUsersState => {

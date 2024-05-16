@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Dispatch } from 'redux';
 import { ActionType } from 'redux/action-types';
 import { Action } from 'redux/actions';
 
@@ -10,7 +11,7 @@ interface IPayload {
 }
 
 export const searchGithubUsers = (term: string) => {
-  return async (dispatch: any) => {
+  return async (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.SEARCH_USERS,
     });
