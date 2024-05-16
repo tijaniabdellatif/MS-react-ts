@@ -2,26 +2,40 @@ import axios from 'axios';
 import { ActionType } from 'redux/action-types';
 import { Action } from 'redux/actions';
 
-const searchGithubUsers = (term:string) => {
-    return async (dispatch:any) => {
+interface IPayload {
+  fullname: string;
+  image: string;
+  company: string;
+  bio: string;
+}
 
-            dispatch({
-                 type:ActionType.SEARCH_USERS
-            });
+export const searchGithubUsers = (term: string) => {
+  return async (dispatch: any) => {
+    dispatch({
+      type: ActionType.SEARCH_USERS,
+    });
 
-            try {
+    try {
+      const { data } = await axios.get(`https://api.github.com/users/${term}`);
 
+      const iPayload: IPayload = {
+        fullname: data.name,
+        image: data.avatar_url,
+        company: data.company,
+        bio: data.bio,
+      };
 
-            }catch(err){
-
-                 if(err instanceof Error){
-
-                    dispatch({
-                         type:ActionType.SEARCH_USERS_ERROR,
-                         payload:err.message
-                    })
-                 }
-            }
+      dispatch({
+        type: ActionType.SEARCH_USERS_SUCCESS,
+        payload: [iPayload],
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        dispatch({
+          type: ActionType.SEARCH_USERS_ERROR,
+          payload: err.message,
+        });
+      }
     }
-
+  };
 };
