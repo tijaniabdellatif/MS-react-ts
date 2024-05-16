@@ -4,7 +4,12 @@ interface IGithubUsersState {
   data: string[];
 }
 
-const reducer = (state: IGithubUsersState, action: any):IGithubUsersState => {
+interface IActions {
+
+      type:string,
+      payload?:any
+}
+const reducer = (state: IGithubUsersState, action: IActions):IGithubUsersState => {
   switch (action.type) {
     case 'search_users': 
         return {loading:true,error:null,data:[]}
