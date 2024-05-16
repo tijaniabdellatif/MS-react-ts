@@ -10,10 +10,14 @@ const Img = styled.img`
   width: auto;
 `;
 
-export const Logo: React.FC = () => {
+type ILogo = {
+  image: string;
+};
+
+export const Logo: React.FC<ILogo> = ({ image }) => {
   return (
     <StyledLogo>
-      <Img src="/logo-light.png" alt="logo" />
+      <Img src={image} alt="logo" />
     </StyledLogo>
   );
 };

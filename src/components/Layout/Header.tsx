@@ -7,7 +7,7 @@ export const StyledHeader = styled.div``;
 export const Header: React.FC = () => {
   return (
     <StyledHeader>
-      <Logo />
+      <Logo image="/logo.png" />
     </StyledHeader>
   );
 };

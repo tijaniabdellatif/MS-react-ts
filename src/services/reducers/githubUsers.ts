@@ -7,7 +7,13 @@ interface IGithubUsersState {
   data: object[];
 }
 
-const reducer = (state: IGithubUsersState, action: Action): IGithubUsersState => {
+const intialeState = {
+  loading: false,
+  error: null,
+  data: [],
+};
+
+const reducer = (state: IGithubUsersState = intialeState, action: Action): IGithubUsersState => {
   switch (action.type) {
     case ActionType.SEARCH_USERS:
       return { loading: true, error: null, data: [] };
