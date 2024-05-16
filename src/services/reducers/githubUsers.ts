@@ -1,5 +1,6 @@
-import { ActionType } from 'redux/action-types';
-import { Action } from 'redux/actions';
+import { ActionType } from 'services/action-types';
+import { Action } from 'services/actions';
+
 interface IGithubUsersState {
   loading: boolean;
   error: string | null;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { ActionType } from 'redux/action-types';
-import { Action } from 'redux/actions';
+import { ActionType } from 'services/action-types';
+import { Action } from 'services/actions';
 
 interface IPayload {
   fullname: string;

@@ -1,4 +1,4 @@
-import { ActionType } from 'redux/action-types';
+import { ActionType } from 'services/action-types';
 
 interface ISearchAction {
   type: ActionType.SEARCH_USERS;

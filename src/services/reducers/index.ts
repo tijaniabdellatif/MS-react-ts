@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import githubReducer from './githubUsers';
 
 const reducers = combineReducers({
