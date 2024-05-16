@@ -4,19 +4,34 @@ interface IGithubUsersState {
   data: string[];
 }
 
-interface IActions {
+interface ISearchAction{
 
-      type:string,
-      payload?:any
+    type:'search_users',
+
 }
-const reducer = (state: IGithubUsersState, action: IActions):IGithubUsersState => {
+
+interface ISearchUsersSuccessAction {
+
+   type:'search_users_success'
+}
+
+
+interface ISearchUsersErrorAction {
+
+     type:'search_users_error'
+}
+// interface IActions {
+//   type: string;
+//   payload?: any;
+// }
+const reducer = (state: IGithubUsersState, action: IActions): IGithubUsersState => {
   switch (action.type) {
-    case 'search_users': 
-        return {loading:true,error:null,data:[]}
+    case 'search_users':
+      return { loading: true, error: null, data: [] };
     case 'search_users_success':
-        return {loading:false,error:null,data:action.payload}
+      return { loading: false, error: null, data: action.payload };
     case 'search_users_error':
-        return {loading:true,error:action.payload,data:[]}
+      return { loading: true, error: action.payload, data: [] };
     default:
       return state;
   }
