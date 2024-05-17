@@ -4,8 +4,10 @@ import { StyledHeading } from 'components/ui/Heading';
 import { StyledButton } from 'components/ui/StyledButton';
 import { Row } from 'components/ui/Row';
 import { FormRow } from 'components/ui/FormRow';
-import { Header } from './Header';
 import { useDispatch } from 'react-redux';
+import { actionCreators } from 'services';
+
+import { Header } from './Header';
 
 type IForm = {
   type: string;
@@ -77,10 +79,13 @@ const Input = styled.input`
 
 export const AppLayout: FC = () => {
   const [term, setTerm] = useState('');
+  const dispatch = useDispatch();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('term');
+
+    dispatch(actionCreators.searchGithubUsers(term) as any);
   };
   return (
     <StyledAppLayout>

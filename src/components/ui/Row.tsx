@@ -4,8 +4,6 @@ type IRow = {
   type: string;
 };
 
-
-
 export const Row = styled.div<IRow, any>`
   display: flex;
   ${(props) =>
