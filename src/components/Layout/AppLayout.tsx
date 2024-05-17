@@ -4,9 +4,11 @@ import { StyledHeading } from 'components/ui/Heading';
 import { StyledButton } from 'components/ui/StyledButton';
 import { Row } from 'components/ui/Row';
 import { FormRow } from 'components/ui/FormRow';
-import { Header } from './Header';
-
+import { useSelector } from 'react-redux';
 import { useActions } from 'hooks/useActions';
+import { IGithubUsersState } from 'services/reducers/githubUsers';
+
+import { Header } from './Header';
 
 type IForm = {
   type: string;
@@ -76,13 +78,13 @@ const Input = styled.input`
   }
 `;
 
+
 export const AppLayout: FC = () => {
   const [term, setTerm] = useState('');
-  const { searchGithubUsers } = useActions();
-
+  const { searchGithubUsers, } = useActions();
+  const {githubusers:{loading,data,error}} = useSelector((state:IGithubUsersState | any) => state);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (term === '') {
       alert('error');
     }

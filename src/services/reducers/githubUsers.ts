@@ -1,7 +1,7 @@
 import { ActionType } from 'services/action-types';
 import { Action } from 'services/actions';
 
-interface IGithubUsersState {
+export interface IGithubUsersState {
   loading: boolean;
   error: string | null;
   data: object[];
