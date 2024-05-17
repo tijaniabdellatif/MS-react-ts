@@ -3,11 +3,16 @@ import { Dispatch } from 'redux';
 import { ActionType } from 'services/action-types';
 import { Action } from 'services/actions';
 
-interface IPayload {
+export interface IPayload {
   fullname: string;
   image: string;
-  company: string;
-  bio: string;
+  company?: string;
+  bio?: string;
+  public_repos?: number;
+  followers?: number;
+  location?: string;
+  following?: number;
+  public_gists?: number;
 }
 
 export const searchGithubUsers = (term: string) => {
@@ -24,6 +29,11 @@ export const searchGithubUsers = (term: string) => {
         image: data.avatar_url,
         company: data.company,
         bio: data.bio,
+        public_repos: data.public_repos,
+        followers: data.followers,
+        location: data.location,
+        public_gists: data.public_gists,
+        following: data.following,
       };
 
       dispatch({

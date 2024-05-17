@@ -5,7 +5,6 @@ type ITitle = {
   as: string;
   text?: string;
 };
-
 const Heading = styled.h1<ITitle, any>`
   ${(props) =>
     props.as === 'h1' &&

@@ -1,14 +1,16 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
+import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { StyledHeading } from 'components/ui/Heading';
 import { StyledButton } from 'components/ui/StyledButton';
 import { Row } from 'components/ui/Row';
 import { FormRow } from 'components/ui/FormRow';
 import { useActions } from 'hooks/useActions';
-import { IGithubUsersState } from 'services/reducers/githubUsers';
-import { Header } from './Header';
 import { useTypedSelector } from 'hooks/useTypedSelector';
+import { Spinner } from 'components/ui/Spinner';
+import { IPayload } from 'services/action-creators';
+import { InfoUser } from 'components/ui/InfoWrapper';
 
+import { Header } from './Header';
 
 type IForm = {
   type: string;
@@ -19,8 +21,6 @@ const Form = styled.form<IForm, any>`
     props.type !== 'modal' &&
     css`
       padding: 2.4rem 4rem;
-
-      /* Box */
       background-color: var(--color-grey-0);
       border: 1px solid var(--color-grey-100);
       border-radius: var(--border-radius-md);
@@ -51,10 +51,7 @@ const Main = styled.main<HTMLElement, any>`
 
 const Container = styled.div<HTMLDivElement, any>`
   max-width: 120rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 12rem auto;
+  margin: 7rem auto;
 `;
 
 const HeaderContainer = styled.header<HTMLElement, any>`
@@ -71,6 +68,7 @@ const Input = styled.input`
   border-radius: var(--border-radius-sm);
   padding: 0.8rem 1.2rem;
   box-shadow: var(--shadow-sm);
+  width: 30%;
 
   &::placeholder {
     font-size: 1.2rem;
@@ -78,43 +76,72 @@ const Input = styled.input`
   }
 `;
 
-
 export const AppLayout: FC = () => {
   const [term, setTerm] = useState('');
-  const { searchGithubUsers, } = useActions();
-  const {loading,data,error} = useTypedSelector((state) => state.githubusers);
+  const { searchGithubUsers } = useActions();
+  const { loading, data, error } = useTypedSelector((state) => state.githubusers);
+
+
+const fullName = data.map((item:IPayload | any) => {
+   return item.fullname;
+});
+
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (term === '') {
-      alert('error');
-    }
     searchGithubUsers(term);
+
+    if (!loading) {
+      setTerm('');
+    }
   };
   return (
     <StyledAppLayout>
       <HeaderContainer>
         <Header />
-        <StyledHeading as="h1" text="Welcome to my world" />
+        <StyledHeading as="h1" text={data && !loading && !error ? `Welcome ${fullName[0]}`:'Search users...'} />
+        {
+           loading && <Spinner />
+        }
       </HeaderContainer>
-
       <Main>
         <Container>
           <Row type="vertical">
-            <StyledHeading as="h2" text="Search users" />
-            <Form onSubmit={onSubmit}>
-              <FormRow label={'Search users :'} error={''} id="name">
-                <Input type="text" id="name" placeholder="username" value={term} onChange={(e) => setTerm(e.target.value)} />
+            <Row type="vertical">
+              <StyledHeading as="h2" text="Search users" />
+              <Form onSubmit={onSubmit}>
+                <FormRow label={'Search users :'} error={error!} id="name">
+                  <Input type="text" id="name" placeholder="username" value={term} onChange={(e) => setTerm(e.target.value)} />
+                  <StyledButton variation="primary" size="medium">
+                    Search
+                  </StyledButton>
+                </FormRow>
+              </Form>
+            </Row>
+            <Row type="vertical">
+              {loading && (
+                <>
+                  <StyledHeading as="h2" text={error!} />
+                  <Spinner />
+                </>
+              )}
+              {!error &&
+                !loading &&
+                data.map((item: IPayload | any) => {
+                  return (
+                    <>
+                      <InfoUser
+                        public_gists={item.public_gists}
+                        followers={item.followers}
+                        public_repos={item.public_repos}
+                        following={item.following}
+                      />
 
-                <StyledButton variation="danger" size="medium">
-                  Search
-                </StyledButton>
-              </FormRow>
-            </Form>
-          </Row>
-
-          <Row>
-            <h2>Result</h2>
+                      <StyledHeading as="h4" text={item.fullname} />
+                    </>
+                  );
+                })}
+            </Row>
           </Row>
         </Container>
       </Main>
