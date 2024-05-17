@@ -4,10 +4,9 @@ import { StyledHeading } from 'components/ui/Heading';
 import { StyledButton } from 'components/ui/StyledButton';
 import { Row } from 'components/ui/Row';
 import { FormRow } from 'components/ui/FormRow';
-import { useDispatch } from 'react-redux';
-import { actionCreators } from 'services';
-
 import { Header } from './Header';
+
+import { useActions } from 'hooks/useActions';
 
 type IForm = {
   type: string;
@@ -79,13 +78,15 @@ const Input = styled.input`
 
 export const AppLayout: FC = () => {
   const [term, setTerm] = useState('');
-  const dispatch = useDispatch();
+  const { searchGithubUsers } = useActions();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('term');
 
-    dispatch(actionCreators.searchGithubUsers(term) as any);
+    if (term === '') {
+      alert('error');
+    }
+    searchGithubUsers(term);
   };
   return (
     <StyledAppLayout>
