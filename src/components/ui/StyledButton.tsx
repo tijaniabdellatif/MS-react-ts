@@ -17,6 +17,7 @@ type Variation = VariationReference.PRIMARY_VAR | VariationReference.SECONDARY_V
 interface IButton {
   size: Size;
   variation: Variation;
+  action?: (e: Event) => void;
 }
 
 const sizes: Record<Size, RuleSet<object>> = {
@@ -28,8 +29,8 @@ const sizes: Record<Size, RuleSet<object>> = {
     text-align: center;
   `,
   medium: css`
-    font-size: 1.4rem;
-    padding: 1.2rem 1.6rem;
+    font-size: 1.2rem;
+    padding: 1rem 1.6rem;
     font-weight: 500;
   `,
   large: css`

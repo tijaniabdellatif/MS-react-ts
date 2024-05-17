@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import React, { FC, SyntheticEvent, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { StyledHeading } from 'components/ui/Heading';
 import { StyledButton } from 'components/ui/StyledButton';
 import { Row } from 'components/ui/Row';
 import { FormRow } from 'components/ui/FormRow';
-
 import { Header } from './Header';
+import { useDispatch } from 'react-redux';
 
 type IForm = {
   type: string;
@@ -33,8 +33,6 @@ const Form = styled.form<IForm, any>`
   font-size: 1.4rem;
 `;
 
-export default Form;
-
 const StyledAppLayout = styled.div<HTMLDivElement, any>`
   display: flex;
   flex-direction: column;
@@ -51,6 +49,8 @@ const Main = styled.main<HTMLElement, any>`
 const Container = styled.div<HTMLDivElement, any>`
   max-width: 120rem;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
   margin: 12rem auto;
 `;
 
@@ -70,11 +70,18 @@ const Input = styled.input`
   box-shadow: var(--shadow-sm);
 
   &::placeholder {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.5);
   }
 `;
 
 export const AppLayout: FC = () => {
+  const [term, setTerm] = useState('');
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('term');
+  };
   return (
     <StyledAppLayout>
       <HeaderContainer>
@@ -86,14 +93,19 @@ export const AppLayout: FC = () => {
         <Container>
           <Row type="vertical">
             <StyledHeading as="h2" text="Search users" />
-            <Form>
+            <Form onSubmit={onSubmit}>
               <FormRow label={'Search users :'} error={''} id="name">
-                <Input type="text" id="name" placeholder="Username" />
-                <StyledButton variation="danger" size="small">
+                <Input type="text" id="name" placeholder="username" value={term} onChange={(e) => setTerm(e.target.value)} />
+
+                <StyledButton variation="danger" size="medium">
                   Search
                 </StyledButton>
               </FormRow>
             </Form>
+          </Row>
+
+          <Row>
+            <h2>Result</h2>
           </Row>
         </Container>
       </Main>
