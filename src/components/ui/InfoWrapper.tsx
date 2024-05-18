@@ -111,19 +111,17 @@ export const InfoUser: React.FC<IUserInfo> = ({ public_gists, public_repos, foll
   ];
   return (
     <Wrapper>
-      
-        {metrics.map((item: IInfo) => {
-          return (
-            <article className="item" key={item.id}>
-              <span className={item.color}>{item.icon}</span>
-              <div>
-                <StyledHeading as="h3" text={item.value.toString()} />
-                <p>{item.label}</p>
-              </div>
-            </article>
-          );
-        })}
-   
+      {metrics.map((item: IInfo) => {
+        return (
+          <article className="item" key={item.id}>
+            <span className={item.color}>{item.icon}</span>
+            <div>
+              <StyledHeading as="h3" text={item.value.toString()} />
+              <p>{item.label}</p>
+            </div>
+          </article>
+        );
+      })}
     </Wrapper>
   );
 };

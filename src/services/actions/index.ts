@@ -14,4 +14,24 @@ interface ISearchUsersErrorAction {
   payload: string;
 }
 
-export type Action = ISearchAction | ISearchUsersSuccessAction | ISearchUsersErrorAction;
+interface ISearchFollower {
+  type: ActionType.SEARCH_FOLLOWERS;
+}
+
+interface ISearchFollowerSuccess {
+  type: ActionType.SEARCH_FOLLOWERS_SUCESS;
+  payload: object[];
+}
+
+interface ISearchFollowerError {
+  type: ActionType.SEARCH_FOLLOWERS_ERROR;
+  payload: string;
+}
+
+export type Action =
+  | ISearchAction
+  | ISearchUsersSuccessAction
+  | ISearchUsersErrorAction
+  | ISearchFollower
+  | ISearchFollowerSuccess
+  | ISearchFollowerError;

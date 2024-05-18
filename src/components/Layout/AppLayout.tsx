@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { StyledHeading } from 'components/ui/Heading';
 import { StyledButton } from 'components/ui/StyledButton';
@@ -9,6 +9,7 @@ import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Spinner } from 'components/ui/Spinner';
 import { IPayload } from 'services/action-creators';
 import { InfoUser } from 'components/ui/InfoWrapper';
+import User from 'components/ui/User';
 
 import { Header } from './Header';
 
@@ -81,11 +82,15 @@ export const AppLayout: FC = () => {
   const { searchGithubUsers } = useActions();
   const { loading, data, error } = useTypedSelector((state) => state.githubusers);
 
+  console.log(data);
 
-const fullName = data.map((item:IPayload | any) => {
-   return item.fullname;
-});
+  const fullName = data.map((item: IPayload | any) => {
+    if (item.fullname === null) {
+      return '💀 username not communicated';
+    }
 
+    return item.fullname;
+  });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -99,10 +104,12 @@ const fullName = data.map((item:IPayload | any) => {
     <StyledAppLayout>
       <HeaderContainer>
         <Header />
-        <StyledHeading as="h1" text={data && !loading && !error ? `Welcome ${fullName[0]}`:'Search users...'} />
-        {
-           loading && <Spinner />
-        }
+
+        <StyledHeading as="h1" text={'Github world'} />
+
+        <StyledHeading as="h1" text={fullName[0] || '...'} />
+
+        {loading && <Spinner />}
       </HeaderContainer>
       <Main>
         <Container>
@@ -137,7 +144,19 @@ const fullName = data.map((item:IPayload | any) => {
                         following={item.following}
                       />
 
-                      <StyledHeading as="h4" text={item.fullname} />
+                      <Row type="horizontal">
+                        <User
+                          fullname={item.fullname}
+                          image={item.image}
+                          url={item.url}
+                          bio={item.bio}
+                          blog={item.blog}
+                          twitter={item.twitter}
+                          location={item.location}
+                          company={item.company}
+                          login={item.login}
+                        />
+                      </Row>
                     </>
                   );
                 })}

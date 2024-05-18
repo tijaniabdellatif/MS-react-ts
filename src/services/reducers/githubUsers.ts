@@ -19,6 +19,7 @@ const reducer = (state: IGithubUsersState = intialeState, action: Action): IGith
       return { loading: false, error: null, data: action.payload };
     case ActionType.SEARCH_USERS_ERROR:
       return { loading: true, error: action.payload, data: [] };
+
     default:
       return state;
   }

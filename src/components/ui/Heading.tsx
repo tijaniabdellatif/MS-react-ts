@@ -5,7 +5,7 @@ type ITitle = {
   as: string;
   text?: string;
 };
-const Heading = styled.h1<ITitle, any>`
+const Heading = styled.h1<ITitle, HTMLElement>`
   ${(props) =>
     props.as === 'h1' &&
     css`
@@ -32,7 +32,6 @@ const Heading = styled.h1<ITitle, any>`
     css`
       font-size: 3rem;
       font-weight: 600;
-      text-align: center;
     `}
 
   line-height: 1.4;
