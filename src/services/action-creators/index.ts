@@ -21,9 +21,9 @@ export interface IPayload {
 }
 
 export interface IFollowerPayload {
-  avatar: string;
-  url: string;
-  username: string;
+  avatar_url?: string;
+  html_url?: string;
+  login?:string
 }
 
 export const searchFollowers = (term: string) => {
@@ -34,9 +34,17 @@ export const searchFollowers = (term: string) => {
 
     try {
       const { data } = await axios.get(`https://api.github.com/users/${term}/followers`);
+
+
+      const filters = data.map((item:IFollowerPayload) => {
+         
+          return {login:item.login,avatar:item.avatar_url,url:item.html_url};
+      });
+
+
       dispatch({
         type: ActionType.SEARCH_FOLLOWERS_SUCESS,
-        payload: data,
+        payload: filters,
       });
     } catch (err) {
       if (err instanceof Error) {

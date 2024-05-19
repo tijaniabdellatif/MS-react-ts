@@ -3,18 +3,43 @@ import styled from 'styled-components';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { useActions } from 'hooks/useActions';
 import { IFollowerPayload, IPayload } from 'services/action-creators';
+import { StyledHeading } from './Heading';
 
-
-const Followers: React.FC<IPayload> = ({login}) => {
+const Followers: React.FC<IPayload> = ({ login }) => {
   const { searchFollowers } = useActions();
-  const { loading, data, error } = useTypedSelector((state) => state.searchFollowers);
+  const { loading, data:followers, error } = useTypedSelector((state) => state.searchFollowers);
 
 
   useEffect(() => {
+
+    if(error){
+      alert('something went wrong');
+    }
     searchFollowers(`${login}`);
   }, []);
 
-  return <h2>followers component</h2>;
+  return (
+    <Wrapper>
+      <div className="followers">
+        {
+          followers.map((item:any,index:number) => {
+
+              const {avatar,url,login} = item;
+
+              return(
+                 <article key={index}>
+                  <img  src={avatar} alt={login} />
+                  <div>
+                    <StyledHeading as="h6" text={login}/>
+                    <a href={url}>{url}</a>
+                  </div>
+                 </article>
+              );
+          })
+        }
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.article`
@@ -40,7 +65,8 @@ const Wrapper = styled.article`
     font-size: 1rem;
   }
   .followers {
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x:hidden;
     height: 260px;
     display: grid;
     grid-template-rows: repeat(auto-fill, minmax(45px, 1fr));
@@ -55,6 +81,7 @@ const Wrapper = styled.article`
     grid-template-columns: auto 1fr;
     align-items: center;
     column-gap: 1rem;
+   
     img {
       height: 100%;
       width: 45px;
